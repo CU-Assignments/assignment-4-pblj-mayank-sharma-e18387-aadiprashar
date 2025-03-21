@@ -1,0 +1,66 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CardCollection {
+
+    private static Map<String, List<Card>> cards = new HashMap<>();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        // Initialize card collection
+        initializeCards();
+
+        while (true) {
+            System.out.println("\nCard Collection System");
+            System.out.println("1. Find Cards by Symbol");
+            System.out.println("2. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // consume newline
+
+            if (choice == 1) {
+                findCardsBySymbol();
+            } else if (choice == 2) {
+                System.out.println("Exiting system...");
+                break;
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    // Initialize card collection with ranks and symbols
+    private static void initializeCards() {
+        String[] symbols = {"Hearts", "Spades", "Diamonds", "Clubs"};
+        String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
+
+        // Populate the map with symbols as keys and list of cards as values
+        for (String symbol : symbols) {
+            List<Card> cardList = new ArrayList<>();
+            for (String rank : ranks) {
+                cardList.add(new Card(rank, symbol));
+            }
+            cards.put(symbol, cardList);
+        }
+    }
+
+    // Find and display cards by symbol
+    private static void findCardsBySymbol() {
+        System.out.print("Enter the symbol (e.g., Hearts, Spades, Diamonds, Clubs): ");
+        String symbol = scanner.nextLine();
+
+        List<Card> cardList = cards.get(symbol);
+
+        if (cardList != null && !cardList.isEmpty()) {
+            System.out.println("Cards of " + symbol + ":");
+            for (Card card : cardList) {
+                System.out.println(card);
+            }
+        } else {
+            System.out.println("No cards found for the symbol: " + symbol);
+        }
+    }
+}
